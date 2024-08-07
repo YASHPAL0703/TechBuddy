@@ -1,0 +1,2 @@
+# TechBuddy
+Trend analysing algorithm
