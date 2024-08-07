@@ -1,0 +1,54 @@
+Imports and Setup:
+
+Various libraries are imported for data handling, machine learning, and plotting:
+os, numpy, pandas for general operations.
+yfinance for fetching stock data.
+tensorflow and keras for building and training the LSTM model.
+MinMaxScaler from sklearn for normalizing data.
+matplotlib for plotting graphs.
+
+Function Definition:
+get_stock_data(stock_symbol, start_date, end_date):
+Fetches historical stock data using yfinance for the specified symbol and date range.
+
+Data Fetching:
+
+get_stock_data is called with user inputs to fetch the historical stock data.
+Data Validation:
+
+Checks if any data was returned for the provided stock symbol and date range. If no data is found, a message is displayed, and the script ends.
+Data Preprocessing:
+
+The 'Close' prices are scaled using MinMaxScaler to normalize them between 0 and 1.
+Training datasets X_train and y_train are created:
+X_train: Contains sequences of prediction_days (60) previous closing prices.
+y_train: Contains the closing price immediately following each sequence in X_train.
+
+Model Building:
+
+A Sequential LSTM model is built with the following layers:
+LSTM layer with 50 units and return sequences enabled (for stacked LSTM layers).
+Dropout layer with a 20% dropout rate (to prevent overfitting).
+Another LSTM layer with 50 units (without return sequences).
+Another Dropout layer.
+Dense layer with 1 unit to predict the next closing value.
+The model is compiled using the 'adam' optimizer and 'mean_squared_error' loss function.
+Model Training:
+
+The model is trained on X_train and y_train for 25 epochs with a batch size of 32.
+Future Price Prediction:
+
+The last prediction_days of scaled data are used as the initial input to predict future prices.
+A loop predicts future stock prices for the number of days specified by the user.
+The predicted values are appended to future_predictions and used as the next input in the loop.
+Inverse Transformation:
+
+The predicted future prices are transformed back to their original scale using scaler.inverse_transform.
+Generate Future Dates:
+
+A date range starting from the last known date is generated for plotting the future predictions.
+Plotting:
+
+A plot is created to visualize the actual and predicted stock prices.
+The actual prices (for the most recent known days) are plotted in blue, and the predicted future prices are plotted in red.
+The plot includes titles and labels for clarity
